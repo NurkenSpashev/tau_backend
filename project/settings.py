@@ -161,9 +161,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
     ],
-    # 'DEFAULT_PERMISSION_CLASSES': [
-    #     'rest_framework.permissions.DjangoModelPermissions',
-    # ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'product_api.permissions.ProductPermission',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',

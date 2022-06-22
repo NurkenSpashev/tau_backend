@@ -11,14 +11,14 @@ CATEGORY = (
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, help_text='Название', verbose_name='Название')
-    price = models.CharField(max_length=255, help_text='Цена', verbose_name='Цена')
+    name = models.CharField(max_length=255, help_text='Название', verbose_name='Название', db_index=True)
+    price = models.CharField(max_length=255, help_text='Цена', verbose_name='Цена', db_index=True)
     description = models.TextField(help_text='Описание', verbose_name='Описание')
     address = models.CharField(max_length=255, help_text='Место положения', verbose_name='Место положения')
     category = models.CharField(max_length=50, choices=CATEGORY, default=CATEGORY[0])
-    average_rating = models.FloatField(default=0)
+    average_rating = models.FloatField(default=0, db_index=True)
     soft_delete = models.BooleanField(default=False)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, help_text='Владелец', verbose_name='Владелец')
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, help_text='Владелец', verbose_name='Владелец')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

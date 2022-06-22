@@ -19,13 +19,13 @@ class ImageInstanceInline(admin.TabularInline):
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
-        fields = ("name", "price", "address", "category", "review_link", "show_average", "soft_delete", "author", "created_at")
+        fields = ("name", "price", "address", "category", "review_link", "show_average", "soft_delete", "owner", "created_at")
 
 
 @admin.register(Product)
 class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     resource_class = ProductResource
-    list_display = ("name", "price", "address", "category", "review_link", "show_average", "soft_delete", "author", "created_at")
+    list_display = ("name", "price", "address", "category", "review_link", "show_average", "soft_delete", "owner", "created_at")
     list_filter = ('name', 'price', 'address', 'soft_delete')
     inlines = [ImageInstanceInline]
 
@@ -38,7 +38,7 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     review_link.short_description = "Reviews"
 
     class Meta:
-        ordering = ("name", "author")
+        ordering = ("name", "owner")
 
 
 class ReviewResource(resources.ModelResource):

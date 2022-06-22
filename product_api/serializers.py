@@ -3,14 +3,14 @@ from .models import Product, Review
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source='author.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Product
         fields = '__all__'
 
     def create(self, validated_data):
-        validated_data['author'] = self.context['request'].user
+        validated_data['owner'] = self.context['request'].user
         return Product.objects.create(**validated_data)
 
 

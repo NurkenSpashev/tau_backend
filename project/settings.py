@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     # 3part
     'rest_framework',
+    'django_filters',
     'corsheaders',
     'djoser',
     'rest_framework_simplejwt',
@@ -161,7 +162,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'product_api.permissions.ProductPermission',
+        # 'product_api.permissions.ProductPermission',
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (

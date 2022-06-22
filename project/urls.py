@@ -10,7 +10,7 @@ urlpatterns = [
     path('client/', include(('client.urls', 'client'), namespace='client')),
 
     # ProductApi
-    path('api/v2', include(('product_api.urls', 'product_api'), namespace='product_api')),
+    path('api/v2/', include(('product_api.urls', 'product_api'), namespace='product_api')),
 
     # AuthenticationApi
     path('api-auth/', include('rest_framework.urls')),

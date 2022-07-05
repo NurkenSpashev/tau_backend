@@ -138,3 +138,6 @@ dmypy.json
 .DS_Store
 ./media/
 ./static
+/static/
+/media/
+/uploads/

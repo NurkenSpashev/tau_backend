@@ -34,7 +34,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',
+    'jet.dashboard',
+    'jet',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -54,6 +55,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'debug_toolbar',
     'import_export',
+    'shell_plus',
+    'django_extensions',
 ]
 
 INTERNAL_IPS = [
@@ -73,6 +76,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar_force.middleware.ForceDebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -204,11 +208,39 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-JAZZMIN_SETTINGS = {
-    "site_title": "Travel Admin",
-    "site_header": "Travel",
-    "site_brand": "Travel",
-    "copyright": "Travel Ltd",
-}
+JET_DEFAULT_THEME = 'light-gray'
+
+JET_THEMES = [
+    {
+        'theme': 'default', # theme folder name
+        'color': '#47bac1', # color of the theme's button in user menu
+        'title': 'Default' # theme title
+    },
+    {
+        'theme': 'green',
+        'color': '#44b78b',
+        'title': 'Green'
+    },
+    {
+        'theme': 'light-green',
+        'color': '#2faa60',
+        'title': 'Light Green'
+    },
+    {
+        'theme': 'light-violet',
+        'color': '#a464c4',
+        'title': 'Light Violet'
+    },
+    {
+        'theme': 'light-blue',
+        'color': '#5EADDE',
+        'title': 'Light Blue'
+    },
+    {
+        'theme': 'light-gray',
+        'color': '#222',
+        'title': 'Light Gray'
+    }
+]
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True

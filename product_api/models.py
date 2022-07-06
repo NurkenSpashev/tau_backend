@@ -3,19 +3,12 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-CATEGORY = (
-    ('relax', 'Для отдыха'),
-    ('family', 'Для семьи'),
-    ('friends', 'С друзьями'),
-)
-
 
 class Product(models.Model):
     name = models.CharField(max_length=255, help_text='Название', verbose_name='Название', db_index=True)
     price = models.CharField(max_length=255, help_text='Цена', verbose_name='Цена', db_index=True)
     description = models.TextField(help_text='Описание', verbose_name='Описание')
     address = models.CharField(max_length=255, help_text='Место положения', verbose_name='Место положения')
-    category = models.CharField(max_length=50, choices=CATEGORY, default=CATEGORY[0])
     average_rating = models.FloatField(default=0, db_index=True)
     soft_delete = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, help_text='Владелец', verbose_name='Владелец')
@@ -37,6 +30,19 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'pk': self.pk})
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=100, help_text='Название категории', db_index=True)
+    products = models.ManyToManyField(Product, blank=True, related_name='categories')
+
+    class Meta:
+        verbose_name = 'Категории'
+        verbose_name_plural = 'Категория'
+        ordering = ['-pk']
+
+    def __str__(self):
+        return self.title
 
 
 class Comment(models.Model):

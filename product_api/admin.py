@@ -5,8 +5,6 @@ from .models import (
 )
 
 from django.contrib import admin
-from django.urls import reverse
-from django.utils.http import urlencode
 
 from import_export import resources
 from import_export.admin import ExportActionMixin
@@ -19,13 +17,13 @@ class ImageInstanceInline(admin.TabularInline):
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
-        fields = ("name", "price", "address", "category", "comment_link", "show_average", "soft_delete", "owner", "created_at")
+        fields = ("name", "price", "address", "comment_link", "show_average", "soft_delete", "owner", "created_at")
 
 
 @admin.register(Product)
 class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     resource_class = ProductResource
-    list_display = ("name", "price", "address", "category", "comment_link", "show_average", "soft_delete", "owner", "created_at")
+    list_display = ("name", "price", "address", "comment_link", "show_average", "soft_delete", "owner", "created_at")
     list_filter = ('name', 'price', 'address', 'soft_delete')
     inlines = [ImageInstanceInline]
 
@@ -41,7 +39,7 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
         ordering = ("name", "owner")
 
 
-class ReviewResource(resources.ModelResource):
+class CommentResource(resources.ModelResource):
     class Meta:
         model = Comment
         fields = ("product", "user", "comment", "rating")
@@ -49,7 +47,7 @@ class ReviewResource(resources.ModelResource):
 
 @admin.register(Comment)
 class ReviewAdmin(ExportActionMixin, admin.ModelAdmin):
-    resource_class = ReviewResource
+    resource_class = CommentResource
     list_display = ("product", "user", "comment", "rating")
     list_filter = ("product", "rating", "user")
 
@@ -64,4 +62,3 @@ class ImageAdmin(admin.ModelAdmin):
 
     class Meta:
         ordering = ("title", )
-

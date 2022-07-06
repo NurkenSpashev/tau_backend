@@ -7,7 +7,7 @@ from .paginations import ProductPagination, CommentPagination
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.select_related('owner').all()
+    queryset = Product.objects.select_related('owner').prefetch_related('categories', 'tags').all()
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
     filter_backends = [DjangoFilterBackend]

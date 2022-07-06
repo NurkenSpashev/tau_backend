@@ -1,7 +1,10 @@
 from .models import (
     Product,
     Comment,
-    Image
+    Image,
+    Tag,
+    Category,
+    Booking
 )
 
 from django.contrib import admin
@@ -36,7 +39,7 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     comment_link.short_description = "Comments"
 
     class Meta:
-        ordering = ("name", "owner")
+        ordering = ("-pk",)
 
 
 class CommentResource(resources.ModelResource):
@@ -46,7 +49,7 @@ class CommentResource(resources.ModelResource):
 
 
 @admin.register(Comment)
-class ReviewAdmin(ExportActionMixin, admin.ModelAdmin):
+class CommentAdmin(ExportActionMixin, admin.ModelAdmin):
     resource_class = CommentResource
     list_display = ("product", "user", "comment", "rating")
     list_filter = ("product", "rating", "user")
@@ -61,4 +64,30 @@ class ImageAdmin(admin.ModelAdmin):
     list_filter = ('title', 'soft_delete')
 
     class Meta:
-        ordering = ("title", )
+        ordering = ("-created_at", )
+
+
+@admin.register(Booking)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ("user", "payment", "product", "start_date", "end_date", "created_at")
+
+    class Meta:
+        ordering = ("-created_at", )
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ("title",)
+    list_filter = ('title',)
+
+    class Meta:
+        ordering = ("-pk",)
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ("title", )
+    list_filter = ('title',)
+
+    class Meta:
+        ordering = ("-pk", )

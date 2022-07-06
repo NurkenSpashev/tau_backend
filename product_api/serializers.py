@@ -1,9 +1,23 @@
 from rest_framework import serializers
-from .models import Product, Comment
+from .models import Product, Comment, Tag, Category
+
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ('title',)
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('title',)
 
 
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    categories = CategorySerializer(read_only=True, many=True)
+    tags = TagSerializer(read_only=True, many=True)
 
     class Meta:
         model = Product

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Review
+from .models import Product, Comment
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -14,10 +14,10 @@ class ProductSerializer(serializers.ModelSerializer):
         return Product.objects.create(**validated_data)
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     product = serializers.CharField(source='product.name', read_only=True)
     user = serializers.ReadOnlyField(source='user.username')
 
     class Meta:
-        model = Review
-        fields = ['product', 'user', 'comment', 'rating', 'product']
+        model = Comment
+        fields = ['product', 'user', 'comment', 'rating']

@@ -10,6 +10,8 @@ class Profile(models.Model):
     phone = models.CharField(max_length=12, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    otp_code = models.CharField(max_length=6, unique=True, null=True)
+    email_verified = models.BooleanField(default=False)
 
 
 @receiver(post_save, sender=User)

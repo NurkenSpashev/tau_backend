@@ -1,6 +1,6 @@
 from .models import (
     Product,
-    Review,
+    Comment,
     Image
 )
 
@@ -19,23 +19,23 @@ class ImageInstanceInline(admin.TabularInline):
 class ProductResource(resources.ModelResource):
     class Meta:
         model = Product
-        fields = ("name", "price", "address", "category", "review_link", "show_average", "soft_delete", "owner", "created_at")
+        fields = ("name", "price", "address", "category", "comment_link", "show_average", "soft_delete", "owner", "created_at")
 
 
 @admin.register(Product)
 class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
     resource_class = ProductResource
-    list_display = ("name", "price", "address", "category", "review_link", "show_average", "soft_delete", "owner", "created_at")
+    list_display = ("name", "price", "address", "category", "comment_link", "show_average", "soft_delete", "owner", "created_at")
     list_filter = ('name', 'price', 'address', 'soft_delete')
     inlines = [ImageInstanceInline]
 
-    def review_link(self, obj):
+    def comment_link(self, obj):
         from django.utils.html import format_html
-        count_reviews = obj.review_set.all().count()
-        url = f"/admin/product_api/review/?product__id__exact={obj.id}"
-        return format_html('<a href="{}">{} Reviews </a>', url, count_reviews)
+        count_comments = obj.comment_set.all().count()
+        url = f"/admin/product_api/comment/?product__id__exact={obj.id}"
+        return format_html('<a href="{}">{} Comments </a>', url, count_comments)
 
-    review_link.short_description = "Reviews"
+    comment_link.short_description = "Comments"
 
     class Meta:
         ordering = ("name", "owner")
@@ -43,11 +43,11 @@ class ProductAdmin(ExportActionMixin, admin.ModelAdmin):
 
 class ReviewResource(resources.ModelResource):
     class Meta:
-        model = Review
+        model = Comment
         fields = ("product", "user", "comment", "rating")
 
 
-@admin.register(Review)
+@admin.register(Comment)
 class ReviewAdmin(ExportActionMixin, admin.ModelAdmin):
     resource_class = ReviewResource
     list_display = ("product", "user", "comment", "rating")

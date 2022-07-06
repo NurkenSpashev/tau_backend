@@ -32,14 +32,14 @@ class Product(models.Model):
 
     def show_average(self):
         from django.db.models import Avg
-        result = Review.objects.filter(product=self).aggregate(Avg("rating"))
-        return result["rating__avg"]
+        result = Comment.objects.filter(product=self).aggregate(Avg("rating"))
+        return round(result["rating__avg"], 2)
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'pk': self.pk})
 
 
-class Review(models.Model):
+class Comment(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField(max_length=1000)
@@ -54,7 +54,7 @@ class Review(models.Model):
         return str(self.product) + "---" + str(self.user)
 
     def get_absolute_url(self):
-        return reverse('review_detail', kwargs={'pk': self.pk})
+        return reverse('comments_detail', kwargs={'pk': self.pk})
 
 
 class Image(models.Model):
@@ -72,3 +72,25 @@ class Image(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Payment(models.Model):
+    pass
+
+
+class Booking(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='User')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, verbose_name='Product')
+    payment = models.OneToOneField(Payment, on_delete=models.PROTECT, verbose_name='Payment')
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Бронирование'
+        verbose_name_plural = 'Бронирование'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f'{self.user__username}: {self.product__name}'
+

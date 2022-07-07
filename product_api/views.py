@@ -1,7 +1,8 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .models import Product, Comment
+from .models import Product, Comment, Tag, Category
 from .serializers import ProductSerializer, CommentSerializer
 from .paginations import ProductPagination, CommentPagination
 
@@ -11,7 +12,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     pagination_class = ProductPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['name', 'price', 'owner', 'average_rating']
+    filterset_fields = ['name', 'price', 'owner']
 
 
 class CommentViewSet(viewsets.ModelViewSet):

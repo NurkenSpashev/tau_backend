@@ -11,7 +11,6 @@ class Product(models.Model):
     price = models.CharField(max_length=255, help_text='Цена', verbose_name='Цена', db_index=True)
     description = models.TextField(help_text='Описание', verbose_name='Описание')
     address = models.CharField(max_length=255, help_text='Место положения', verbose_name='Место положения')
-    average_rating = models.FloatField(default=0, db_index=True)
     soft_delete = models.BooleanField(default=False, help_text='Удаленный/Не удаленный', verbose_name='Удаленный')
     status = models.BooleanField(default=False, help_text='Активный/Не активный', verbose_name='Статус')
     categories = models.ManyToManyField('Category', blank=True, related_name='categories_products')

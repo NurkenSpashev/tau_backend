@@ -174,7 +174,8 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
-    )
+    ),
+    'NON_FIELD_ERRORS_KEY': 'errors',
 }
 
 SIMPLE_JWT = {

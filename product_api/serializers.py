@@ -5,13 +5,13 @@ from .models import Product, Comment, Tag, Category
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = ('title',)
+        fields = ('title', 'pk')
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('title',)
+        fields = '__all__'
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -25,7 +25,17 @@ class ProductSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['owner'] = self.context['request'].user
-        return Product.objects.create(**validated_data)
+        product = Product.objects.create(**validated_data)
+        categories = self.context['request'].data.get('categories')
+        tags = self.context['request'].data.get('tags')
+        for tag in tags:
+            if Tag.objects.filter(pk=tag['pk']).exists():
+                product.tags.add(Tag.objects.get(pk=tag['pk']))
+        for category in categories:
+            if Category.objects.filter(pk=category['pk']).exists():
+                product.categories.add(Category.objects.get(pk=category['pk']))
+
+        return product
 
 
 class CommentSerializer(serializers.ModelSerializer):

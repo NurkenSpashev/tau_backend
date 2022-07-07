@@ -12,7 +12,8 @@ class Product(models.Model):
     description = models.TextField(help_text='Описание', verbose_name='Описание')
     address = models.CharField(max_length=255, help_text='Место положения', verbose_name='Место положения')
     average_rating = models.FloatField(default=0, db_index=True)
-    soft_delete = models.BooleanField(default=False)
+    soft_delete = models.BooleanField(default=False, help_text='Удаленный/Не удаленный', verbose_name='Удаленный')
+    status = models.BooleanField(default=False, help_text='Активный/Не активный', verbose_name='Статус')
     categories = models.ManyToManyField('Category', blank=True, related_name='categories_products')
     tags = models.ManyToManyField('Tag', blank=True, related_name='tags_products')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, help_text='Владелец', verbose_name='Владелец')
@@ -34,6 +35,10 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={'pk': self.pk})
+
+    @property
+    def get_name(self):
+        return self.name
 
 
 class Category(models.Model):

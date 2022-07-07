@@ -2,8 +2,9 @@ from rest_framework import permissions
 
 
 class ProductPermission(permissions.DjangoModelPermissions):
+    authenticated_users_only = False
     perms_map = {
-        'GET': ['%(app_label)s.view_%(model_name)s'],
+        'GET': [],
         'OPTIONS': [],
         'HEAD': [],
         'POST': ['%(app_label)s.add_%(model_name)s'],
@@ -12,3 +13,7 @@ class ProductPermission(permissions.DjangoModelPermissions):
         'DELETE': ['%(app_label)s.delete_%(model_name)s'],
     }
 
+
+class ProductOwnerPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, product_obj):
+        return product_obj.owner.id == request.user.id
